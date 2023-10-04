@@ -1,0 +1,35 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface State {
+  userInfo: any;
+}
+
+const initialState: State = {
+  userInfo: localStorage.getItem('userInfo')
+    ? JSON.parse(localStorage.getItem('userInfo') as string)
+    : null,
+};
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    setCredentials: (state, action: PayloadAction<any>) => {
+      state.userInfo = action.payload;
+      localStorage.setItem('userInfo', JSON.stringify(action.payload));
+
+      const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000; // 30 days
+      localStorage.setItem('expirationTime', expirationTime.toString());
+    },
+    logout: (state) => {
+      state.userInfo = null;
+      // NOTE: here we need to also remove the cart from storage so the next
+      // logged in user doesn't inherit the previous users cart and shipping
+      localStorage.clear();
+    },
+  },
+});
+
+export const { setCredentials, logout } = authSlice.actions;
+
+export default authSlice.reducer;
