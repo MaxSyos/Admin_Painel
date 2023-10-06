@@ -41,20 +41,20 @@ const CustomTable: React.FC<Props> = (props) => {
       //for implementing customers table
       return (
         <tr key={index}>
-          <td>{item.ID}</td>
+          <td>{item._id}</td>
           <td className={classes.userName}>
-            <img
+   {/*          <img
               className={classes.avatar}
               src={item.avatar}
               alt="user avatar"
-            />
-            {item.userName}
+            /> */}
+            {item.name}
           </td>
           <td className="ltr">{item.email}</td>
-          <td className="ltr">{item.phoneNumber}</td>
+{/*           <td className="ltr">{item.phoneNumber}</td>
           <td>{item.totalOrders}</td>
           <td>{item.totalSpend}</td>
-          <td>{item.location}</td>
+          <td>{item.location}</td> */}
           <td className={classes.actions}>
             <Icon icon="charm:menu-kebab" />
             <div className={classes.actions__box}>

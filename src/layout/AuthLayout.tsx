@@ -2,12 +2,14 @@ import React, { useContext } from "react";
 import LoginContext from "../store/loginContext";
 
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AuthLayout = () => {
   const location = useLocation();
   const loginCtx = useContext(LoginContext);
+  const { userInfo } = useSelector((state: any) => state.auth);
 
-  return loginCtx.isLogin ? (
+  return userInfo /* && loginCtx.isLogin */ ? (
     <Outlet />
   ) : (
     <Navigate

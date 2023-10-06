@@ -10,6 +10,7 @@ import classes from "./MainLayout.module.scss";
 
 const MainLayout = () => {
   const sidebarCtx = useContext(SidebarContext);
+  
 
   useEffect(() => {
     if (document.body.classList.contains("sidebar__open"))

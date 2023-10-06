@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useWindowSize } from "usehooks-ts";
 import { useTranslation } from "react-i18next";
 import { images } from "../../constants";
@@ -8,6 +8,10 @@ import SidebarContext from "../../store/sidebarContext";
 import LoginContext from "../../store/loginContext";
 import { Icon } from "@iconify/react";
 import classes from "./Sidebar.module.scss";
+import { useLogoutMutation } from "../../slices/usersApiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../slices/authSlice";
+
 
 function Sidebar() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -23,9 +27,22 @@ function Sidebar() {
     if (width <= 768) document.body.classList.toggle("sidebar__open");
   }
 
-  function logoutHandler() {
-    openSidebarHandler();
-    loginCtx.toggleLogin();
+  const dispatch = useDispatch();
+  //const navigate = useNavigate();
+
+  const { userInfo } = useSelector((state: any) => state.auth);
+
+  const [logoutApiCall] = useLogoutMutation();
+
+  async function logoutHandler() {
+    try {
+      //await logoutApiCall().unwrap();
+      dispatch(logout());
+      openSidebarHandler();
+      /* loginCtx.toggleLogin(); */
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   useEffect(() => {

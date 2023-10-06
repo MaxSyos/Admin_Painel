@@ -5,14 +5,17 @@ import CustomTable from "../components/tables/customTable/CustomTable";
 import { IcustomersTable } from "../interfaces/Itable";
 import { customers, customersHeader } from "../constants/tables";
 import LoadingSpinner from "../components/UI/loadingSpinner/LoadingSpinner";
-const url =
-  "https://admin-panel-79c71-default-rtdb.europe-west1.firebasedatabase.app/customers.json";
+import { BASE_URL, USERS_URL } from "../constantURLs";
+import { useGetUsersQuery } from "../slices/usersApiSlice";
+const url = `${BASE_URL}${USERS_URL}`
 function Customers() {
   const { t } = useTranslation();
-  const { data, error, status } = useFetch<IcustomersTable[]>(url);
+  //const { data, error, status } = useFetch<IcustomersTable[]>(url);
+  const { data: users, refetch, isLoading, error } = useGetUsersQuery();
+  console.log(users)
   let customerTable;
 
-  if (status === "loading") {
+  if (isLoading) {
     customerTable = <LoadingSpinner />;
   }
 
@@ -22,9 +25,14 @@ function Customers() {
     );
   }
 
-  if (status === "fetched" && data) {
+  if (users) {
     customerTable = (
-      <CustomTable limit={10} headData={customersHeader} bodyData={data} />
+      <CustomTable limit={10} headData={customersHeader} bodyData={users.map(user => ({
+        ID: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin
+      }))} />
     );
   }
 

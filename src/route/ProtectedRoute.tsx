@@ -2,15 +2,13 @@ import React, { useContext } from "react";
 import { Outlet } from "react-router-dom";
 import Login from "../pages/Login";
 import LoginContext from "../store/loginContext";
+import { useSelector } from "react-redux";
 
-// interface Props {
-//   isAuthenticated: boolean;
-//   authenticationPath: string;
-//   outlet: JSX.Element;
-// }
-const ProtectedRoute: React.FC = (props) => {
+const ProtectedRoute: React.FC = () => {
+  const { userInfo } = useSelector((state: any) => state.auth);
   const loginCtx = useContext(LoginContext);
-  return loginCtx.isLogin ? <Outlet /> : <Login />;
+
+  return userInfo && userInfo.isAdmin /* && loginCtx.isLogin */ ? <Outlet /> : <Login />;
 };
 
 export default ProtectedRoute;

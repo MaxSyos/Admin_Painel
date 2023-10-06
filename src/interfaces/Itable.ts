@@ -12,7 +12,7 @@ export type TlatestTransactions = {
   status: string;
 };
 
-export interface IcustomersTable {
+/* export interface IcustomersTable {
   ID: number | string;
   userName: string;
   avatar: string;
@@ -21,6 +21,13 @@ export interface IcustomersTable {
   totalOrders: number;
   totalSpend: string;
   location: string;
+} */
+
+export interface IcustomersTable {
+  _id: number | string;
+  name: string;
+  email: string;
+  isAdmin: boolean;
 }
 
 export interface IProductsTable {

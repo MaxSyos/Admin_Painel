@@ -21,8 +21,34 @@ function LangBox() {
     setShowLangBox((prev) => !prev);
   };
   useEffect(() => {
-    document.documentElement.dir = lang === "en" ? "ltr" : "rtl";
-    document.documentElement.lang = lang === "en" ? "en" : "fa";
+    let direction;
+    switch (lang) {
+      case "en":
+      case "br":
+        direction = "ltr";
+        break;
+      case "fa":
+        direction = "rtl";
+        break;
+      default:
+        direction = "ltr"; // valor padrão
+    }
+    document.documentElement.dir = direction;
+
+    let language;
+    switch (lang) {
+      case "en":
+      case "br":
+        language = lang;
+        break;
+      case "fa":
+        language = "fa";
+        break;
+      default:
+        language = "en"; // valor padrão
+    }
+    document.documentElement.lang = language;
+
   }, [lang]);
   const checkIfClickedOutside = useCallback(() => {
     // If the menu is open and the clicked target is not within the menu,
@@ -47,6 +73,14 @@ function LangBox() {
       <div
         className={`${classes.lang_menu} ${showLangBox ? classes.show : ""}`}
       >
+        <div
+          onClick={() => {
+            langCtx.toggleLanguage("br");
+            showBoxHandler();
+          }}
+        >
+          Port (br)
+        </div>
         <div
           onClick={() => {
             langCtx.toggleLanguage("en");
